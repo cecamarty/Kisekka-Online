@@ -37,4 +37,5 @@ export {
     uploadImage,
     deleteImage,
     generateImagePath,
+    getR2ImageUrl,
 } from "./storage";

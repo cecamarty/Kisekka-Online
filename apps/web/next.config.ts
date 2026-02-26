@@ -18,11 +18,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "firebasestorage.googleapis.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.kisekka.online",
+      },
     ],
-  },
-
-  experimental: {
-    allowedDevOrigins: ["172.20.10.4"],
   },
 };
 

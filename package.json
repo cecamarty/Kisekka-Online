@@ -13,6 +13,11 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "turbo": "^2.8.10"
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.3",
+    "turbo": "^2.8.10",
+    "typescript": "^5.9.3"
   }
 }

@@ -45,6 +45,7 @@ export async function uploadImage(
  */
 export async function deleteImage(_path: string): Promise<void> {
     // TODO: implement R2 delete API route when needed
+    // eslint-disable-next-line no-console
     console.warn("deleteImage: R2 deletion not yet implemented");
 }
 

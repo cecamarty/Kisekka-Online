@@ -4,8 +4,8 @@ import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { getShop, getMarketplaceListings } from "@kisekka/firebase";
 import { formatPrice, timeAgo } from "@kisekka/utils";
-import styles from "../marketplace/marketplace.module.css";
-import profileStyles from "../profile/Profile.module.css";
+import styles from "../../marketplace/marketplace.module.css";
+import profileStyles from "../../profile/Profile.module.css";
 import type { Shop, MarketplaceListing } from "@kisekka/types";
 
 export default function ShopDetailPage({ params }: { params: Promise<{ id: string }> }) {

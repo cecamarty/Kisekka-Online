@@ -78,6 +78,7 @@ export async function updateUser(
 export async function createShop(data: CreateShopInput): Promise<string> {
     const docRef = await addDoc(collections.shops(), {
         ...data,
+        id: "pending",
         marketId: data.marketId || DEFAULT_MARKET_ID,
         verified: false,
         lastActivityAt: serverTimestamp(),
@@ -103,6 +104,16 @@ export async function getShopsByZone(zone: LocationZone): Promise<Shop[]> {
     return snap.docs.map((d) => d.data() as Shop);
 }
 
+export async function getAllShops(pageSize: number = 50): Promise<Shop[]> {
+    const q = query(
+        collections.shops(),
+        where("marketId", "==", DEFAULT_MARKET_ID),
+        limit(pageSize)
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => d.data() as Shop);
+}
+
 export async function getShopsByCategory(
     category: PartCategory
 ): Promise<Shop[]> {
@@ -122,6 +133,7 @@ export async function createFeedPost(
 ): Promise<string> {
     const docRef = await addDoc(collections.feedPosts(), {
         ...data,
+        id: "pending",
         marketId: data.marketId || DEFAULT_MARKET_ID,
         responseCount: 0,
         interestedCount: 0,
@@ -141,7 +153,7 @@ export async function getFeedPost(postId: string): Promise<FeedPost | null> {
 export async function getFeedPosts(
     pageSize: number = DEFAULT_PAGE_SIZE,
     lastDoc?: DocumentSnapshot
-): Promise<FeedPost[]> {
+): Promise<{ posts: FeedPost[]; lastDoc: DocumentSnapshot | null }> {
     const constraints: QueryConstraint[] = [
         where("marketId", "==", DEFAULT_MARKET_ID),
         where("status", "==", "active"),
@@ -156,7 +168,9 @@ export async function getFeedPosts(
 
     const q = query(collections.feedPosts(), ...constraints);
     const snap = await getDocs(q);
-    return snap.docs.map((d) => d.data() as FeedPost);
+    const posts = snap.docs.map((d) => d.data() as FeedPost);
+    const lastVisible = snap.docs[snap.docs.length - 1] || null;
+    return { posts, lastDoc: lastVisible };
 }
 
 export async function getFeedPostsByCategory(
@@ -175,6 +189,28 @@ export async function getFeedPostsByCategory(
     return snap.docs.map((d) => d.data() as FeedPost);
 }
 
+export async function getUserFeedPosts(userId: string): Promise<FeedPost[]> {
+    const q = query(
+        collections.feedPosts(),
+        where("authorId", "==", userId),
+        orderBy("createdAt", "desc"),
+        limit(50)
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => d.data() as FeedPost);
+}
+
+export async function updateFeedPost(postId: string, data: Partial<FeedPost>): Promise<void> {
+    await updateDoc(docs.feedPost(postId), {
+        ...data,
+        lastActivityAt: serverTimestamp(),
+    });
+}
+
+export async function deleteFeedPost(postId: string): Promise<void> {
+    await deleteDoc(docs.feedPost(postId));
+}
+
 export async function toggleInterested(postId: string): Promise<void> {
     await updateDoc(docs.feedPost(postId), {
         interestedCount: increment(1),
@@ -189,6 +225,7 @@ export async function createMarketplaceListing(
 ): Promise<string> {
     const docRef = await addDoc(collections.marketplaceListings(), {
         ...data,
+        id: "pending",
         marketId: data.marketId || DEFAULT_MARKET_ID,
         engagementCount: 0,
         status: "active",
@@ -249,6 +286,7 @@ export async function createResponse(
 ): Promise<string> {
     const docRef = await addDoc(collections.responses(), {
         ...data,
+        id: "pending",
         whatsappTaps: 0,
         createdAt: serverTimestamp(),
     });
@@ -295,6 +333,7 @@ export async function createNotification(data: {
 }): Promise<void> {
     await addDoc(collections.notifications(), {
         ...data,
+        id: "pending",
         read: false,
         createdAt: serverTimestamp(),
     });
@@ -337,6 +376,7 @@ export async function getUnreadNotificationCount(
 export async function createReport(data: CreateReportInput): Promise<void> {
     await addDoc(collections.reports(), {
         ...data,
+        id: "pending",
         status: "pending",
         createdAt: serverTimestamp(),
     });
@@ -352,6 +392,7 @@ export async function logActivity(data: {
 }): Promise<void> {
     await addDoc(collections.activitySignals(), {
         ...data,
+        id: "pending",
         metadata: data.metadata || {},
         createdAt: serverTimestamp(),
     });

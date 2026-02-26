@@ -107,7 +107,7 @@ export default function CreatePostPage() {
       setTimeout(() => router.push("/"), 300);
     } catch (err: any) {
       console.error(err);
-      setError("Failed to create post. Please try again.");
+      setError(err?.message || "Failed to create post. Please try again.");
       setUploadProgress(0);
     } finally {
       setLoading(false);

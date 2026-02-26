@@ -3,24 +3,10 @@
  *
  * Uploads images to Cloudflare R2 via the /api/upload API route.
  * Images are served from the custom domain: images.kisekka.online
- *
- * Falls back gracefully if the API route is unavailable.
  */
-
-// Keep Firebase Storage imports for backward compatibility / migration
-import {
-    ref,
-    uploadBytes,
-    getDownloadURL,
-    deleteObject,
-} from "firebase/storage";
-import { storage } from "./config";
-
-const R2_PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || "https://images.kisekka.online";
 
 /**
  * Upload an image to Cloudflare R2 via API route.
- * Falls back to Firebase Storage if R2 upload fails.
  *
  * @param file - The file/blob to upload
  * @param path - Storage path (e.g. "posts/abc123/image1.webp")
@@ -30,46 +16,36 @@ export async function uploadImage(
     file: Blob,
     path: string
 ): Promise<string> {
-    try {
-        // Try R2 upload via API route
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("path", path);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("path", path);
 
-        const response = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-        });
+    const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+    });
 
-        if (!response.ok) {
-            throw new Error(`Upload failed: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data.url;
-    } catch (error) {
-        console.warn("R2 upload failed, falling back to Firebase Storage:", error);
-
-        // Fallback to Firebase Storage
-        const storageRef = ref(storage, path);
-        const snapshot = await uploadBytes(storageRef, file, {
-            contentType: "image/webp",
-        });
-        return getDownloadURL(snapshot.ref);
+    if (!response.ok) {
+        const errorText = await response.text().catch(() => "Unknown error");
+        throw new Error(`R2 upload failed (${response.status}): ${errorText}`);
     }
+
+    const data = await response.json();
+
+    if (!data.url) {
+        throw new Error("Upload succeeded but no URL returned from R2");
+    }
+
+    return data.url;
 }
 
 /**
- * Delete an image from Firebase Storage.
- * Note: R2 deletion would require a separate API route.
+ * Delete an image — currently a no-op on R2 (requires separate signed API endpoint).
+ * Firebase Storage deletion removed as storage has been migrated to R2.
  */
-export async function deleteImage(path: string): Promise<void> {
-    try {
-        const storageRef = ref(storage, path);
-        await deleteObject(storageRef);
-    } catch (error) {
-        console.warn("Delete failed:", error);
-    }
+export async function deleteImage(_path: string): Promise<void> {
+    // TODO: implement R2 delete API route when needed
+    console.warn("deleteImage: R2 deletion not yet implemented");
 }
 
 /**
@@ -86,8 +62,10 @@ export function generateImagePath(
 }
 
 /**
- * Get the public URL for an R2-stored image.
+ * Get the public URL for an R2-stored image given its path.
  */
 export function getR2ImageUrl(path: string): string {
-    return `${R2_PUBLIC_URL}/${path}`;
+    const base =
+        process.env.NEXT_PUBLIC_R2_PUBLIC_URL || "https://images.kisekka.online";
+    return `${base}/${path}`;
 }

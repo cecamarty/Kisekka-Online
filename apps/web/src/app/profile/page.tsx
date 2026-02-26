@@ -43,6 +43,19 @@ export default function ProfilePage() {
                 <span className={styles.statLabel}>Zone</span>
              </div>
           </div>
+
+          {user?.role === "shop_owner" && (
+            <button 
+              className="btn btn--outline btn--sm mt-6"
+              onClick={() => router.push("/shop/setup")}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: 8 }}>
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              {user.shopId ? "Manage My Shop" : "Setup My Shop"}
+            </button>
+          )}
         </div>
       </div>
 

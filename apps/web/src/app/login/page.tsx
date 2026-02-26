@@ -28,6 +28,13 @@ export default function LoginPage() {
       // If logged in but no profile, go to onboarding
       router.push("/onboarding");
     }
+
+    return () => {
+      if (recaptchaVerifierRef.current) {
+        recaptchaVerifierRef.current.clear();
+        recaptchaVerifierRef.current = null;
+      }
+    };
   }, [firebaseUser, user, router]);
 
   const handleSendOTP = async (e: React.FormEvent) => {
@@ -38,6 +45,8 @@ export default function LoginPage() {
     try {
       if (!recaptchaVerifierRef.current) {
         recaptchaVerifierRef.current = setupRecaptcha("recaptcha-container");
+        // Explicitly render to ensure it's ready
+        await recaptchaVerifierRef.current.render();
       }
 
       const fullNumber = phoneNumber.startsWith("+") 
@@ -48,9 +57,18 @@ export default function LoginPage() {
       confirmationResultRef.current = result;
       setStep("otp");
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Failed to send OTP. Please try again.");
-      // Reset recaptcha if it fails
+      console.error("Firebase Auth Error:", err.code, err.message);
+      
+      let friendlyMessage = "Failed to send OTP. Please try again.";
+      if (err.code === "auth/invalid-phone-number") friendlyMessage = "The phone number is invalid.";
+      if (err.code === "auth/too-many-requests") friendlyMessage = "Too many attempts. Please try again later.";
+      if (err.code === "auth/invalid-app-credential") {
+        friendlyMessage = "Auth setup error. Please ensure localhost is whitelisted in Firebase Console.";
+      }
+
+      setError(friendlyMessage);
+      
+      // Reset recaptcha on failure
       if (recaptchaVerifierRef.current) {
         recaptchaVerifierRef.current.clear();
         recaptchaVerifierRef.current = null;
@@ -115,8 +133,6 @@ export default function LoginPage() {
           >
             {loading ? <span className="spinner" /> : "Continue"}
           </button>
-          
-          <div id="recaptcha-container"></div>
         </form>
       ) : (
         <form className={styles.form} onSubmit={handleVerifyOTP}>
@@ -156,6 +172,9 @@ export default function LoginPage() {
           </button>
         </form>
       )}
+
+      {/* Keep container always in DOM to avoid Re-rendering issues */}
+      <div id="recaptcha-container"></div>
 
       <footer className={styles.footer}>
         By continuing, you verify that you are in Kisekka Market or looking for parts there.

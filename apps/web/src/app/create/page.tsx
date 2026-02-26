@@ -60,8 +60,8 @@ export default function CreatePostPage() {
 
   const isFormValid = partName.trim() && carModel.trim() && zone && category;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     if (!firebaseUser || !user) return;
     if (!zone || !category) {
       setError("Please select both a zone and a category.");
@@ -128,10 +128,10 @@ export default function CreatePostPage() {
         </button>
         <h1 className={styles.headerTitle}>New Request</h1>
         <button 
-          type="submit" 
-          form="create-form"
+          type="button"
           className={styles.shareBtn}
           disabled={loading || !isFormValid}
+          onClick={handleSubmit}
         >
           {loading ? <span className="spinner" style={{ width: 18, height: 18 }} /> : "Share"}
         </button>

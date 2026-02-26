@@ -1,0 +1,249 @@
+/* ─── Marketplace Create Page ───────────────────────────────────────── */
+/* Copied from apps/web/src/app/create/create.module.css */
+
+.page {
+    min-height: 100dvh;
+    background: var(--color-bg);
+}
+
+/* ─── Header ───────────────────────────────────────────────────────── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    padding: 0 8px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.backBtn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    color: var(--color-text-primary);
+    transition: background 0.15s;
+}
+
+.backBtn:hover {
+    background: var(--color-bg-tertiary);
+}
+
+.headerTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.shareBtn {
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0095F6;
+    background: transparent;
+    border-radius: var(--radius-md);
+    transition: opacity 0.15s;
+}
+
+.shareBtn:hover {
+    opacity: 0.7;
+}
+
+.shareBtn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* ─── Form ─────────────────────────────────────────────────────────── */
+.form {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 80px;
+}
+
+/* ─── Photo Section ────────────────────────────────────────────────── */
+.photoSection {
+    margin-bottom: 4px;
+}
+
+.photoGrid {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 4px;
+}
+
+.photoGrid::-webkit-scrollbar {
+    display: none;
+}
+
+.photoSlot {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.photoSlot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photoRemove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.55);
+    color: white;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+
+.photoRemove:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.photoAdd {
+    width: 88px;
+    height: 88px;
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+    transition: border-color 0.15s, color 0.15s;
+    cursor: pointer;
+    background: var(--color-bg-secondary);
+}
+
+.photoAdd span {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.photoAdd:hover {
+    border-color: var(--color-text-secondary);
+    color: var(--color-text-secondary);
+}
+
+/* ─── Input Groups ─────────────────────────────────────────────────── */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    letter-spacing: 0.01em;
+}
+
+.labelHint {
+    font-weight: 400;
+    color: var(--color-text-tertiary);
+}
+
+.input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    color: var(--color-text-primary);
+    transition: border-color 0.15s;
+    font-family: inherit;
+}
+
+.input:focus {
+    border-color: var(--color-text-primary);
+    outline: none;
+    background: var(--color-bg);
+}
+
+.input::placeholder {
+    color: var(--color-text-tertiary);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 72px;
+    line-height: 1.5;
+}
+
+.inputRow {
+    display: flex;
+    gap: 8px;
+}
+
+/* ─── Chips ────────────────────────────────────────────────────────── */
+.chipGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    color: var(--color-text-secondary);
+    transition: all 0.15s;
+    cursor: pointer;
+}
+
+.chip:hover {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+}
+
+.chipActive {
+    background: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: white;
+}
+
+.chipActive:hover {
+    background: #1a1a1a;
+    color: white;
+}
+
+/* ─── Error ────────────────────────────────────────────────────────── */
+.error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    background: #FFF2F0;
+    color: var(--color-error);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+}

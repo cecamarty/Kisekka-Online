@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Shops
+    match /shops/{shopId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null
+        && request.auth.uid == resource.data.ownerId;
+    }
+
+    // Feed Posts
+    match /feedPosts/{postId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+    }
+
+    // Marketplace Listings
+    match /marketplaceListings/{listingId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null
+        && request.auth.uid == resource.data.sellerId;
+    }
+
+    // Responses
+    match /responses/{responseId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+    }
+
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read: if request.auth != null
+        && request.auth.uid == resource.data.userId;
+      allow update: if request.auth != null
+        && request.auth.uid == resource.data.userId;
+    }
+
+    // Reports
+    match /reports/{reportId} {
+      allow create: if request.auth != null;
+    }
+
+    // Activity Signals
+    match /activitySignals/{docId} {
+      allow create: if true;
+    }
+  }
+}

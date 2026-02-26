@@ -103,6 +103,16 @@ export async function getShopsByZone(zone: LocationZone): Promise<Shop[]> {
     return snap.docs.map((d) => d.data() as Shop);
 }
 
+export async function getAllShops(pageSize: number = 50): Promise<Shop[]> {
+    const q = query(
+        collections.shops(),
+        where("marketId", "==", DEFAULT_MARKET_ID),
+        limit(pageSize)
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => d.data() as Shop);
+}
+
 export async function getShopsByCategory(
     category: PartCategory
 ): Promise<Shop[]> {
@@ -141,7 +151,7 @@ export async function getFeedPost(postId: string): Promise<FeedPost | null> {
 export async function getFeedPosts(
     pageSize: number = DEFAULT_PAGE_SIZE,
     lastDoc?: DocumentSnapshot
-): Promise<FeedPost[]> {
+): Promise<{ posts: FeedPost[]; lastDoc: DocumentSnapshot | null }> {
     const constraints: QueryConstraint[] = [
         where("marketId", "==", DEFAULT_MARKET_ID),
         where("status", "==", "active"),
@@ -156,7 +166,9 @@ export async function getFeedPosts(
 
     const q = query(collections.feedPosts(), ...constraints);
     const snap = await getDocs(q);
-    return snap.docs.map((d) => d.data() as FeedPost);
+    const posts = snap.docs.map((d) => d.data() as FeedPost);
+    const lastVisible = snap.docs[snap.docs.length - 1] || null;
+    return { posts, lastDoc: lastVisible };
 }
 
 export async function getFeedPostsByCategory(
@@ -170,6 +182,17 @@ export async function getFeedPostsByCategory(
         where("status", "==", "active"),
         orderBy("lastActivityAt", "desc"),
         limit(pageSize)
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => d.data() as FeedPost);
+}
+
+export async function getUserFeedPosts(userId: string): Promise<FeedPost[]> {
+    const q = query(
+        collections.feedPosts(),
+        where("authorId", "==", userId),
+        orderBy("createdAt", "desc"),
+        limit(50)
     );
     const snap = await getDocs(q);
     return snap.docs.map((d) => d.data() as FeedPost);

@@ -10,7 +10,7 @@ import {
 import { compressImage } from "@kisekka/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { LOCATION_ZONES, PART_CATEGORIES } from "@kisekka/types";
-import styles from "../create/create.module.css";
+import styles from "./create.module.css";
 import type { LocationZone, PartCategory, ListingCondition } from "@kisekka/types";
 
 export default function CreateListingPage() {
@@ -44,9 +44,10 @@ export default function CreateListingPage() {
       return;
     }
     
-    setImages(prev => [...prev, ...files]);
+    // Create previews
     const newPreviews = files.map(file => URL.createObjectURL(file));
     setPreviews(prev => [...prev, ...newPreviews]);
+    setImages(prev => [...prev, ...files]);
   };
 
   const removeImage = (index: number) => {
@@ -54,11 +55,10 @@ export default function CreateListingPage() {
     setPreviews(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (!firebaseUser || !user) return;
-    if (!category || !zone) {
-      setError("Please select category and location.");
+    if (!title || !price || !category || !zone) {
+      setError("Please fill in all required fields.");
       return;
     }
 
@@ -102,156 +102,163 @@ export default function CreateListingPage() {
   if (authLoading) return <div className="text-center p-8"><span className="spinner" /></div>;
 
   return (
-    <div style={{ padding: '16px' }}>
-      <header className="section-header">
-        <button onClick={() => router.back()} className="btn btn--icon btn--ghost">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <div className={styles.page}>
+      {/* ─── Header ────────────────────────────────────── */}
+      <header className={styles.header}>
+        <button onClick={() => router.back()} className={styles.backBtn}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
           </svg>
         </button>
-        <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>Sell an Item</h1>
-        <div style={{ width: 40 }} />
+        <h1 className={styles.headerTitle}>New Listing</h1>
+        <button
+          className={styles.shareBtn}
+          disabled={loading || !title || !price || !category || !zone}
+          onClick={handleSubmit}
+        >
+          {loading ? "Posting..." : "Post"}
+        </button>
       </header>
 
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="form-label">Item Title</label>
-          <input
-            type="text"
-            className="form-input"
-            placeholder="e.g. Original Toyota Bumper"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
+      {/* ─── Form ──────────────────────────────────────── */}
+      <div className={styles.form}>
 
-        <div className="form-group">
-          <label className="form-label">Price (UGX)</label>
-          <input
-            type="number"
-            className="form-input"
-            placeholder="e.g. 150000"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Condition</label>
-          <div style={{ display: 'flex', gap: '8px' }}>
-             {["used", "new", "refurbished"].map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  className={`btn btn--sm ${condition === c ? "btn--primary" : "btn--outline"}`}
-                  style={{ flex: 1, textTransform: 'capitalize' }}
-                  onClick={() => setCondition(c as ListingCondition)}
-                >
-                  {c}
-                </button>
-             ))}
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Category</label>
-          <select 
-            className="form-input form-select"
-            value={category}
-            onChange={(e) => setCategory(e.target.value as PartCategory)}
-            required
-            disabled={loading}
-          >
-            <option value="" disabled>Select category</option>
-            {PART_CATEGORIES.map(c => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Car Models It Fits (optional)</label>
-          <input
-            type="text"
-            className="form-input"
-            placeholder="e.g. Fits Toyota IST 2002-2007"
-            value={carModel}
-            onChange={(e) => setCarModel(e.target.value)}
-            disabled={loading}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Description</label>
-          <textarea
-            className="form-input form-textarea"
-            placeholder="Mention any defects, warranty, or details..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            disabled={loading}
-          />
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">Photos (up to 5)</label>
-          <div className={styles.imageUploadGrid}>
+        {/* Photo Upload */}
+        <div className={styles.photoSection}>
+          <div className={styles.photoGrid}>
             {previews.map((src, i) => (
-              <div key={i} className={styles.imageSlot}>
+              <div key={i} className={styles.photoSlot}>
                 <img src={src} alt="Preview" />
-                <button type="button" className={styles.removeImage} onClick={() => removeImage(i)}>×</button>
+                <button
+                  type="button"
+                  className={styles.photoRemove}
+                  onClick={() => removeImage(i)}
+                >×</button>
               </div>
             ))}
+
             {previews.length < 5 && (
-              <label className={styles.imageSlot}>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  hidden 
-                  multiple 
+              <label className={styles.photoAdd}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  hidden
                   onChange={handleImageChange}
-                  disabled={loading} 
                 />
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ opacity: 0.5 }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                   <circle cx="12" cy="13" r="4" />
                 </svg>
+                <span>Add Photos</span>
               </label>
             )}
           </div>
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Your Location</label>
-          <select 
-            className="form-input form-select"
-            value={zone}
-            onChange={(e) => setZone(e.target.value as LocationZone)}
-            required
-            disabled={loading}
-          >
-            <option value="" disabled>Select zone</option>
-            {LOCATION_ZONES.map(z => (
-              <option key={z} value={z}>{z}</option>
-            ))}
-          </select>
+        {/* Title */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Title</label>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="e.g. Original Toyota Bumper"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
 
-        {error && <p className="form-error">{error}</p>}
+        {/* Price */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Price (UGX)</label>
+          <input
+            type="number"
+            className={styles.input}
+            placeholder="e.g. 150000"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
 
-        <button 
-          type="submit" 
-          className="btn btn--primary btn--full btn--lg"
-          style={{ marginBottom: '40px', marginTop: '20px' }}
-          disabled={loading || !title || !price || !zone || !category}
-        >
-          {loading ? <span className="spinner" /> : "Post Listing"}
-        </button>
-      </form>
+        {/* Condition Chips */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Condition</label>
+          <div className={styles.chipGrid}>
+            {(["new", "used", "refurbished"] as const).map((c) => (
+              <button
+                key={c}
+                type="button"
+                className={`${styles.chip} ${condition === c ? styles.chipActive : ""}`}
+                onClick={() => setCondition(c)}
+              >
+                {c.charAt(0).toUpperCase() + c.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Category Chips */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Category</label>
+          <div className={styles.chipGrid}>
+            {PART_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                className={`${styles.chip} ${category === cat ? styles.chipActive : ""}`}
+                onClick={() => setCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Car Model */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>
+            Fits Car Model <span className={styles.labelHint}>(Optional)</span>
+          </label>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="e.g. Toyota IST 2002-2007"
+            value={carModel}
+            onChange={(e) => setCarModel(e.target.value)}
+          />
+        </div>
+
+        {/* Description */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Description</label>
+          <textarea
+            className={`${styles.input} ${styles.textarea}`}
+            placeholder="Mention any defects, details, etc..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
+        {/* Location Zone Chips */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Location Zone</label>
+          <div className={styles.chipGrid}>
+            {LOCATION_ZONES.map((z) => (
+              <button
+                key={z}
+                type="button"
+                className={`${styles.chip} ${zone === z ? styles.chipActive : ""}`}
+                onClick={() => setZone(z)}
+              >
+                {z}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {error && <div className={styles.error}>{error}</div>}
+      </div>
     </div>
   );
 }

@@ -45,7 +45,7 @@ export default function CreateListingPage() {
     }
     
     // Create previews
-    const newPreviews = files.map(file => URL.createObjectURL(file));
+    const newPreviews = files.map(file => window.URL.createObjectURL(file));
     setPreviews(prev => [...prev, ...newPreviews]);
     setImages(prev => [...prev, ...files]);
   };
@@ -134,7 +134,12 @@ export default function CreateListingPage() {
                   type="button"
                   className={styles.photoRemove}
                   onClick={() => removeImage(i)}
-                >×</button>
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
               </div>
             ))}
 

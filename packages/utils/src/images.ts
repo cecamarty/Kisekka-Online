@@ -105,7 +105,7 @@ export async function compressImage(
  */
 export async function createThumbnail(
     file: File,
-    maxDimension: number = 300
+    _maxDimension: number = 300
 ): Promise<Blob> {
     return compressImage(file, 50); // reuse compress with smaller target
 }

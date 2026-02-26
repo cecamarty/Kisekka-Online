@@ -198,6 +198,17 @@ export async function getUserFeedPosts(userId: string): Promise<FeedPost[]> {
     return snap.docs.map((d) => d.data() as FeedPost);
 }
 
+export async function updateFeedPost(postId: string, data: Partial<FeedPost>): Promise<void> {
+    await updateDoc(docs.feedPost(postId), {
+        ...data,
+        lastActivityAt: serverTimestamp(),
+    });
+}
+
+export async function deleteFeedPost(postId: string): Promise<void> {
+    await deleteDoc(docs.feedPost(postId));
+}
+
 export async function toggleInterested(postId: string): Promise<void> {
     await updateDoc(docs.feedPost(postId), {
         interestedCount: increment(1),

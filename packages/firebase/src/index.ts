@@ -21,6 +21,8 @@ export {
     getFeedPosts,
     getFeedPostsByCategory,
     getUserFeedPosts,
+    updateFeedPost,
+    deleteFeedPost,
     toggleInterested,
     createMarketplaceListing,
     getMarketplaceListing,

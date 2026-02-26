@@ -1,9 +1,9 @@
 /*
  * Kisekka Online — Design System
  *
- * Mobile-first, data-light, premium feel.
- * Primary: Orange #FF6600 (Kisekka energy)
- * Inspired by: Instagram/Facebook feed simplicity
+ * Mobile-first, data-light, content-first.
+ * Neutral shell with Orange #FF6600 as accent for primary CTAs.
+ * Inspired by: Instagram & Twitter — clean, content-forward design.
  */
 
 /* ─── Google Fonts ─────────────────────────────────────────────────── */
@@ -11,28 +11,33 @@
 
 /* ─── CSS Custom Properties (Design Tokens) ────────────────────────── */
 :root {
-  /* Brand Colors */
+  /* Brand Colors — Orange reserved for primary CTAs only */
   --color-primary: #FF6600;
-  --color-primary-hover: #E65C00;
-  --color-primary-light: #FFF0E6;
-  --color-primary-subtle: #FFF7F0;
-  --color-primary-glow: rgba(255, 102, 0, 0.15);
+  --color-primary-hover: #E55A00;
+  --color-primary-light: #FFF4EC;
+  --color-primary-subtle: #FFFAF6;
+  --color-primary-glow: rgba(0, 0, 0, 0.06);
 
-  /* Neutral Palette */
+  /* Neutral Palette (Instagram-inspired) */
   --color-bg: #FFFFFF;
-  --color-bg-secondary: #F8F9FA;
-  --color-bg-tertiary: #F0F2F5;
+  --color-bg-secondary: #FAFAFA;
+  --color-bg-tertiary: #EFEFEF;
   --color-surface: #FFFFFF;
   --color-surface-elevated: #FFFFFF;
-  --color-border: #E4E6EB;
-  --color-border-light: #F0F2F5;
+  --color-border: #DBDBDB;
+  --color-border-light: #EFEFEF;
 
-  /* Text */
-  --color-text-primary: #1A1A2E;
-  --color-text-secondary: #65676B;
-  --color-text-tertiary: #8A8D91;
+  /* Text (Instagram-matched) */
+  --color-text-primary: #262626;
+  --color-text-secondary: #737373;
+  --color-text-tertiary: #999999;
   --color-text-inverse: #FFFFFF;
-  --color-text-link: #FF6600;
+  --color-text-link: #262626;
+  --color-text-action: #FF6600;
+
+  /* Icons */
+  --color-icon-default: #262626;
+  --color-icon-inactive: #999999;
 
   /* Semantic */
   --color-success: #00C853;
@@ -49,17 +54,29 @@
   --color-whatsapp-hover: #1DA851;
   --color-whatsapp-bg: #E7F9ED;
 
+  /* Verified (industry-standard blue) */
+  --color-verified: #0095F6;
+  --color-verified-bg: #E8F4FD;
+
   /* Typography */
   --font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen, sans-serif;
-  --font-size-xs: 0.6875rem;   /* 11px */
-  --font-size-sm: 0.75rem;     /* 12px */
-  --font-size-base: 0.875rem;  /* 14px */
-  --font-size-md: 1rem;        /* 16px */
-  --font-size-lg: 1.125rem;    /* 18px */
-  --font-size-xl: 1.25rem;     /* 20px */
-  --font-size-2xl: 1.5rem;     /* 24px */
-  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-xs: 0.6875rem;
+  /* 11px */
+  --font-size-sm: 0.75rem;
+  /* 12px */
+  --font-size-base: 0.875rem;
+  /* 14px */
+  --font-size-md: 1rem;
+  /* 16px */
+  --font-size-lg: 1.125rem;
+  /* 18px */
+  --font-size-xl: 1.25rem;
+  /* 20px */
+  --font-size-2xl: 1.5rem;
+  /* 24px */
+  --font-size-3xl: 1.875rem;
+  /* 30px */
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -72,16 +89,26 @@
   --line-height-relaxed: 1.7;
 
   /* Spacing */
-  --space-1: 0.25rem;   /* 4px */
-  --space-2: 0.5rem;    /* 8px */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-5: 1.25rem;   /* 20px */
-  --space-6: 1.5rem;    /* 24px */
-  --space-8: 2rem;      /* 32px */
-  --space-10: 2.5rem;   /* 40px */
-  --space-12: 3rem;     /* 48px */
-  --space-16: 4rem;     /* 64px */
+  --space-1: 0.25rem;
+  /* 4px */
+  --space-2: 0.5rem;
+  /* 8px */
+  --space-3: 0.75rem;
+  /* 12px */
+  --space-4: 1rem;
+  /* 16px */
+  --space-5: 1.25rem;
+  /* 20px */
+  --space-6: 1.5rem;
+  /* 24px */
+  --space-8: 2rem;
+  /* 32px */
+  --space-10: 2.5rem;
+  /* 40px */
+  --space-12: 3rem;
+  /* 48px */
+  --space-16: 4rem;
+  /* 64px */
 
   /* Border Radius */
   --radius-sm: 6px;
@@ -90,7 +117,7 @@
   --radius-xl: 20px;
   --radius-full: 9999px;
 
-  /* Shadows */
+  /* Shadows (neutral, no orange tint) */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08),
@@ -99,7 +126,7 @@
     0 4px 6px -4px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.06);
-  --shadow-fab: 0 6px 20px rgba(255, 102, 0, 0.35);
+  --shadow-fab: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -209,8 +236,8 @@ ol {
 
 .header__logo {
   font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-extrabold);
-  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
   letter-spacing: -0.5px;
 }
 
@@ -252,7 +279,7 @@ ol {
 }
 
 .bottom-nav__item--active {
-  color: var(--color-primary);
+  color: var(--color-text-primary);
 }
 
 .bottom-nav__item svg {
@@ -284,7 +311,7 @@ ol {
   width: 56px;
   height: 56px;
   border-radius: var(--radius-full);
-  background: var(--color-primary);
+  background: var(--color-text-primary);
   color: var(--color-text-inverse);
   display: flex;
   align-items: center;
@@ -297,7 +324,7 @@ ol {
 
 .fab:hover {
   transform: scale(1.08);
-  box-shadow: 0 8px 25px rgba(255, 102, 0, 0.45);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
 .fab:active {
@@ -596,8 +623,8 @@ ol {
 }
 
 .form-input:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-glow);
+  border-color: var(--color-text-primary);
+  box-shadow: none;
   background: var(--color-bg);
 }
 
@@ -652,17 +679,17 @@ ol {
 }
 
 .chip:hover {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
 }
 
 .chip--active {
-  background: var(--color-primary);
+  background: var(--color-text-primary);
   color: var(--color-text-inverse);
 }
 
 .chip--active:hover {
-  background: var(--color-primary-hover);
+  background: #1a1a1a;
   color: var(--color-text-inverse);
 }
 
@@ -699,8 +726,8 @@ ol {
 }
 
 .avatar--placeholder {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
 }
 
 .avatar img {
@@ -738,8 +765,8 @@ ol {
 }
 
 .badge--verified {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
+  background: var(--color-verified-bg);
+  color: var(--color-verified);
 }
 
 /* ─── Empty State ──────────────────────────────────────────────────── */
@@ -775,12 +802,10 @@ ol {
 
 /* ─── Loading ──────────────────────────────────────────────────────── */
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--color-bg-tertiary) 25%,
-    var(--color-bg-secondary) 50%,
-    var(--color-bg-tertiary) 75%
-  );
+  background: linear-gradient(90deg,
+      var(--color-bg-tertiary) 25%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 75%);
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s ease-in-out infinite;
   border-radius: var(--radius-sm);
@@ -790,6 +815,7 @@ ol {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -799,7 +825,7 @@ ol {
   width: 24px;
   height: 24px;
   border: 2.5px solid var(--color-border);
-  border-top-color: var(--color-primary);
+  border-top-color: var(--color-text-primary);
   border-radius: var(--radius-full);
   animation: spin 0.6s linear infinite;
 }
@@ -827,7 +853,7 @@ ol {
 .section-link {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
+  color: var(--color-text-action);
 }
 
 /* ─── Utility Classes ──────────────────────────────────────────────── */
@@ -848,7 +874,11 @@ ol {
 }
 
 .text-primary {
-  color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.text-accent {
+  color: var(--color-text-action);
 }
 
 .truncate {
@@ -863,6 +893,7 @@ ol {
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -873,6 +904,7 @@ ol {
   from {
     transform: translateY(100%);
   }
+
   to {
     transform: translateY(0);
   }
@@ -883,6 +915,7 @@ ol {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);

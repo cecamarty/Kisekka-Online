@@ -62,20 +62,29 @@ export default function HomePage() {
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
   };
 
+  // Mock stories data
+  const mockStories = [
+    { id: '1', username: 'wako_parts', unviewed: true, avatar: null },
+    { id: '2', username: 'kisekka_auto', unviewed: true, avatar: null },
+    { id: '3', username: 'japan_motors', unviewed: false, avatar: null },
+    { id: '4', username: 'lubowa_spares', unviewed: false, avatar: null },
+    { id: '5', username: 'city_tyres', unviewed: false, avatar: null },
+  ];
+
   return (
     <div className={styles.page}>
       {/* ─── Header ────────────────────────────────────── */}
       <header className="header">
-        <div className="header__logo">Kisekka Online</div>
+        <div className="header__logo">Kisekka</div>
         <div className="header__actions">
           <button className={styles["icon-btn"]} aria-label="Search">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
           </button>
           <button className={styles["icon-btn"]} aria-label="Notifications" onClick={() => router.push("/notifications")}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
@@ -87,36 +96,48 @@ export default function HomePage() {
               className={styles["icon-btn"]} 
               onClick={() => router.push("/profile")}
               aria-label="Profile"
+              style={{ marginLeft: 4 }}
             >
-              <div className="avatar avatar--sm avatar--placeholder">
+              <div className="avatar avatar--sm avatar--placeholder" style={{ width: 28, height: 28, fontSize: 12 }}>
                 {user?.displayName?.[0] || "?"}
               </div>
             </button>
           ) : (
-            <button className="btn btn--primary btn--sm" onClick={() => router.push("/login")}>
+            <button className="btn btn--primary btn--sm" onClick={() => router.push("/login")} style={{ marginLeft: 4 }}>
               Login
             </button>
           )}
         </div>
       </header>
 
-      {/* ─── Feed Tabs ─────────────────────────────────── */}
-      <div className={styles["feed-tabs"]}>
-        <button className={`${styles["feed-tab"]} ${styles["feed-tab--active"]}`}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-          </svg>
-          Feed
-        </button>
-        <button className={styles["feed-tab"]} onClick={() => router.push("/marketplace")}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <path d="M16 10a4 4 0 0 1-8 0" />
-          </svg>
-          Market
-        </button>
+      {/* ─── Stories ───────────────────────────────────── */}
+      <div className={styles.storiesContainer}>
+        {/* Current User Story Add */}
+        <div className={styles.storyItem} onClick={handleCreatePost}>
+          <div className={styles.storyAvatarWrapper}>
+            <div className={styles.storyAvatarInner}>
+              {user?.displayName?.[0] || "?"}
+            </div>
+            <div className={styles.storyAddIcon}>+</div>
+          </div>
+          <span className={styles.storyUsername}>Your story</span>
+        </div>
+        
+        {/* Mock Stories */}
+        {mockStories.map(story => (
+          <div key={story.id} className={styles.storyItem}>
+            <div className={`${styles.storyAvatarWrapper} ${story.unviewed ? styles.storyUnviewed : ''}`}>
+              <div className={styles.storyAvatarInner}>
+                {story.avatar ? (
+                  <img src={story.avatar} alt={story.username} />
+                ) : (
+                  story.username[0].toUpperCase()
+                )}
+              </div>
+            </div>
+            <span className={styles.storyUsername}>{story.username}</span>
+          </div>
+        ))}
       </div>
 
       {/* ─── Feed Content ──────────────────────────────── */}

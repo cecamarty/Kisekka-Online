@@ -14,7 +14,7 @@
 .title {
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-extrabold);
-    color: var(--color-primary);
+    color: var(--color-text-primary);
     margin-bottom: var(--space-2);
 }
 

@@ -96,8 +96,8 @@
 
 .responsePrice {
     display: inline-block;
-    background: var(--color-primary-light);
-    color: var(--color-primary);
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
     padding: 2px 8px;
     border-radius: var(--radius-md);
     font-weight: var(--font-weight-bold);

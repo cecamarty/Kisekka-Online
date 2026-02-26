@@ -40,12 +40,12 @@
 
 .roleCard:hover {
     background: var(--color-bg-secondary);
-    border-color: var(--color-primary);
+    border-color: var(--color-text-primary);
 }
 
 .roleCardActive {
-    background: var(--color-primary-subtle);
-    border-color: var(--color-primary);
+    background: var(--color-bg-secondary);
+    border-color: var(--color-text-primary);
 }
 
 .roleIcon {

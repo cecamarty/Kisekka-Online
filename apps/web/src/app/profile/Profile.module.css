@@ -43,7 +43,7 @@
 .statValue {
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-lg);
-    color: var(--color-primary);
+    color: var(--color-text-primary);
     text-transform: capitalize;
 }
 

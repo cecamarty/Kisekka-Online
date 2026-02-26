@@ -28,9 +28,9 @@
 }
 
 .categoryNavItemActive {
-    background: var(--color-primary);
+    background: var(--color-text-primary);
     color: white;
-    border-color: var(--color-primary);
+    border-color: var(--color-text-primary);
 }
 
 .listingGrid {
@@ -72,7 +72,7 @@
 .listingPrice {
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-lg);
-    color: var(--color-primary);
+    color: var(--color-text-primary);
 }
 
 .listingTitle {
@@ -82,6 +82,7 @@
     margin-top: var(--space-1);
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

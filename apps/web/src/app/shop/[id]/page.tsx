@@ -63,7 +63,7 @@ export default function ShopDetailPage({ params }: { params: Promise<{ id: strin
             </div>
             <div style={{ flex: 1 }}>
                <h1 className={profileStyles.displayName}>{shop.name}</h1>
-               <div style={{ color: 'var(--color-primary)', fontWeight: 'bold', fontSize: '14px' }}>Zone {shop.zone}</div>
+               <div style={{ color: 'var(--color-text-secondary)', fontWeight: 'bold', fontSize: '14px' }}>Zone {shop.zone}</div>
                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
                   {shop.categories.slice(0, 3).map(c => (
                     <span key={c} className="badge badge--zone" style={{ fontSize: '10px' }}>{c}</span>

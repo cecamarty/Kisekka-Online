@@ -91,7 +91,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
         </div>
 
         <div style={{ marginTop: '20px' }}>
-           <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--color-primary)' }}>
+           <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--color-text-primary)' }}>
              {formatPrice(listing.price)}
            </div>
            <h1 style={{ fontSize: '20px', fontWeight: 'bold', marginTop: '4px' }}>{listing.title}</h1>

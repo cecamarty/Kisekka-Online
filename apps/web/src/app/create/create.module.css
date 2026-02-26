@@ -1,82 +1,307 @@
-.container {
-    padding: var(--space-4);
+/* ─── Create Post Page ─────────────────────────────────────────────── */
+
+.page {
+    min-height: 100dvh;
+    background: var(--color-bg);
+}
+
+/* ─── Header ───────────────────────────────────────────────────────── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    padding: 0 8px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border-light);
 }
 
-.title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
-}
-
-.imageUploadGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-2);
-}
-
-.imageSlot {
-    aspect-ratio: 1;
-    background: var(--color-bg-tertiary);
-    border-radius: var(--radius-md);
+.backBtn {
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
-    border: 1.5px dashed var(--color-border);
-    cursor: pointer;
+    border-radius: var(--radius-full);
+    color: var(--color-text-primary);
+    transition: background 0.15s;
 }
 
-.imageSlot img {
+.backBtn:hover {
+    background: var(--color-bg-tertiary);
+}
+
+.headerTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.shareBtn {
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0095F6;
+    background: transparent;
+    border-radius: var(--radius-md);
+    transition: opacity 0.15s;
+}
+
+.shareBtn:hover {
+    opacity: 0.7;
+}
+
+.shareBtn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* ─── Progress Bar ─────────────────────────────────────────────────── */
+.progressBar {
+    height: 2px;
+    background: var(--color-border-light);
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: #0095F6;
+    transition: width 0.3s ease;
+}
+
+/* ─── Form ─────────────────────────────────────────────────────────── */
+.form {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 80px;
+}
+
+/* ─── Photo Section ────────────────────────────────────────────────── */
+.photoSection {
+    margin-bottom: 4px;
+}
+
+.photoGrid {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 4px;
+}
+
+.photoGrid::-webkit-scrollbar {
+    display: none;
+}
+
+.photoSlot {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.photoSlot img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.removeImage {
+.photoRemove {
     position: absolute;
     top: 4px;
     right: 4px;
-    background: rgba(0, 0, 0, 0.6);
+    width: 22px;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.55);
     color: white;
     border-radius: var(--radius-full);
-    width: 20px;
-    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    transition: background 0.15s;
 }
 
-.urgentToggle {
+.photoRemove:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.photoAdd {
+    width: 88px;
+    height: 88px;
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+    transition: border-color 0.15s, color 0.15s;
+    cursor: pointer;
+    background: var(--color-bg-secondary);
+}
+
+.photoAdd span {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.photoAdd:hover {
+    border-color: var(--color-text-secondary);
+    color: var(--color-text-secondary);
+}
+
+/* ─── Input Groups ─────────────────────────────────────────────────── */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    letter-spacing: 0.01em;
+}
+
+.labelHint {
+    font-weight: 400;
+    color: var(--color-text-tertiary);
+}
+
+.input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    color: var(--color-text-primary);
+    transition: border-color 0.15s;
+    font-family: inherit;
+}
+
+.input:focus {
+    border-color: var(--color-text-primary);
+    outline: none;
+    background: var(--color-bg);
+}
+
+.input::placeholder {
+    color: var(--color-text-tertiary);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 72px;
+    line-height: 1.5;
+}
+
+.inputRow {
+    display: flex;
+    gap: 8px;
+}
+
+/* ─── Chips ────────────────────────────────────────────────────────── */
+.chipGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    color: var(--color-text-secondary);
+    transition: all 0.15s;
+    cursor: pointer;
+}
+
+.chip:hover {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+}
+
+.chipActive {
+    background: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: white;
+}
+
+.chipActive:hover {
+    background: #1a1a1a;
+    color: white;
+}
+
+/* ─── Urgent Toggle ────────────────────────────────────────────────── */
+.urgentRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-3) var(--space-4);
-    background: var(--color-urgent-bg);
-    border-radius: var(--radius-md);
-    color: var(--color-urgent);
-    font-weight: var(--font-weight-semibold);
+    padding: 14px 16px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: border-color 0.15s;
+    user-select: none;
+}
+
+.urgentRow:hover {
+    border-color: var(--color-border);
+}
+
+.urgentLeft {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.urgentIcon {
+    font-size: 20px;
+}
+
+.urgentTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.urgentSub {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin-top: 1px;
 }
 
 .toggle {
-    width: 48px;
+    width: 44px;
     height: 24px;
     background: var(--color-border);
     border-radius: var(--radius-full);
     position: relative;
-    cursor: pointer;
-    transition: background var(--transition-fast);
+    transition: background 0.2s;
+    flex-shrink: 0;
 }
 
-.toggleActive {
-    background: var(--color-urgent);
+.toggleOn {
+    background: #FF6600;
 }
 
-.toggleCircle {
+.toggleKnob {
     width: 20px;
     height: 20px;
     background: white;
@@ -84,9 +309,23 @@
     position: absolute;
     top: 2px;
     left: 2px;
-    transition: transform var(--transition-fast);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-.toggleCircleActive {
-    transform: translateX(24px);
+.toggleOn .toggleKnob {
+    transform: translateX(20px);
+}
+
+/* ─── Error ────────────────────────────────────────────────────────── */
+.error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    background: #FFF2F0;
+    color: var(--color-error);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
 }

@@ -5,12 +5,11 @@
 /* ─── Stories ───────────────────────────────────────────────────────── */
 .storiesContainer {
   display: flex;
-  gap: var(--space-4);
-  padding: var(--space-4);
+  gap: 14px;
+  padding: 10px 12px;
   background: var(--color-surface);
   overflow-x: auto;
   border-bottom: 1px solid var(--color-border-light);
-  /* Hide scrollbar for a cleaner look */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -23,35 +22,40 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-1);
-  min-width: 64px;
+  gap: 6px;
+  min-width: 72px;
   cursor: pointer;
 }
 
 .storyAvatarWrapper {
-  width: 64px;
-  height: 64px;
+  width: 78px;
+  height: 78px;
   border-radius: var(--radius-full);
-  padding: 2px;
+  padding: 3px;
   position: relative;
-  background: transparent;
+  background: var(--color-border-light);
 }
 
 .storyUnviewed {
-  background: linear-gradient(45deg, var(--color-text-action), #FFB300);
+  background: linear-gradient(135deg, #FF6600 0%, #FF8C00 40%, #FFB300 100%);
+}
+
+.storyViewed {
+  background: var(--color-border);
 }
 
 .storyAvatarInner {
   width: 100%;
   height: 100%;
   border-radius: var(--radius-full);
-  border: 2px solid var(--color-surface);
+  border: 3px solid var(--color-surface);
   background: var(--color-bg-tertiary);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  font-size: var(--font-size-xl);
+  font-size: 22px;
+  font-weight: 600;
   color: var(--color-text-secondary);
 }
 
@@ -63,14 +67,14 @@
 
 .storyAddIcon {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 20px;
-  height: 20px;
-  background: var(--color-text-action);
+  bottom: 2px;
+  right: 2px;
+  width: 22px;
+  height: 22px;
+  background: #0095F6;
   color: var(--color-text-inverse);
   border-radius: var(--radius-full);
-  border: 2px solid var(--color-surface);
+  border: 2.5px solid var(--color-surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,9 +84,10 @@
 
 .storyUsername {
   font-size: 11px;
+  font-weight: 500;
   color: var(--color-text-primary);
   text-align: center;
-  width: 70px;
+  width: 76px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

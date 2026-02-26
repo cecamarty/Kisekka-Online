@@ -85,7 +85,7 @@ export default function HomePage() {
           </button>
         </div>
         
-        <div className="header__logo" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'cursive, sans-serif', fontSize: '26px', fontWeight: '500' }}>Kisekka</div>
+        <div className="header__logo">Kisekka</div>
         
         <div className="header__actions" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <button className={styles["icon-btn"]} aria-label="Notifications" onClick={() => router.push("/notifications")}>
@@ -105,7 +105,7 @@ export default function HomePage() {
             <div className={styles.storyAvatarInner}>
               {user?.displayName?.[0] || "?"}
             </div>
-            <div className={styles.storyAddIcon} style={{ background: '#0095F6', border: '2px solid white', width: 22, height: 22 }}>
+            <div className={styles.storyAddIcon}>
                <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" style={{ width: 12, height: 12 }}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </div>
           </div>
